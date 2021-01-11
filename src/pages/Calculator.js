@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Input from "../components/Input";
 import Container from "../components/Container";
 import Select from "../components/Select";
+import Utils from "../utils/Utils";
 
 const Title = styled.h1`
   font-weight: bold;
@@ -40,7 +41,11 @@ class Calculator extends React.Component {
   }
   handleSubmit(e) {
     e.preventDefault();
+
     console.log(this.state);
+    const utils = new Utils();
+    const precoTotal = utils.CalculateTotalPrice(1.9, 20, "falemais30");
+    console.log(precoTotal);
   }
   handleOriginChange(e) {
     this.setState(
@@ -77,17 +82,19 @@ class Calculator extends React.Component {
               placeholder="Insira um DDD"
               type="number"
               style={{ marginLeft: "90px" }}
-              onChange={() => this.handleOriginChange}
+              onChange={this.handleOriginChange.bind(this)}
               value={this.state.origem}
+              name="origem"
             ></Input>
             <Input
               placeholder="Para"
               style={{ marginLeft: "20px" }}
               type="number"
-              onChange={() => this.handleDestinationChange}
+              name="destino"
+              onChange={this.handleDestinationChange.bind(this)}
               value={this.state.destino}
             ></Input>
-            <Select onChange={() => this.handlePlanChange}>
+            <Select onChange={this.handlePlanChange.bind(this)}>
               <option value={this.state.plano} hidden>
                 Selecione um plano
               </option>
@@ -97,13 +104,14 @@ class Calculator extends React.Component {
             </Select>
             <Input
               placeholder="Minuto"
+              name="minuto"
               style={{
                 marginBottom: "120px",
                 marginLeft: "20px",
                 marginRight: "30px",
               }}
               value={this.state.minuto}
-              onChange={() => this.handleMinuteChange}
+              onChange={this.handleMinuteChange.bind(this)}
               type="number"
             ></Input>
             <Button type="submit">Enviar</Button>
