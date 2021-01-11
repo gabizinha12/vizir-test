@@ -1,41 +1,41 @@
 class Utils {
-  static CalculateTaxes(destino, origem, tempo, plano) {
-    switch (destino) {
-      case "011":
-        if (origem === "016") {
-          let precoBase = 2.9;
-          let tempo = 0;
-        }
-        if (origem === "017") {
-        }
-
-        if (origem === "018") {
-        }
-        break;
-      case "016":
-        break;
-      case "017":
-        break;
-      case "018":
-        break;
-      default:
-        return 0;
-    }
+  static CalculateMinutePrice(origin, destination) {
+    const checkPricePerMinute = {
+      "011018": "0.9",
+      "011017": "1.7",
+      "011016": "1.9",
+      "018011": "1.9",
+      "017011": "2.7",
+      "016011": "2.9",
+    };
+    const key = origin.concat(destination);
+    const pricePerMinute = Number(checkPricePerMinute[key]);
+    return pricePerMinute ? pricePerMinute : NaN;
   }
-  CalculateTotalPrice(baseMinPrice, tempo, plano) {
-    let maxDuration = plano.split("falemais");
-    console.log(maxDuration);
-    maxDuration = Number(maxDuration);
-    console.log(maxDuration);
-
-    let minutesPassed = tempo - maxDuration;
-    if (minutesPassed > 0) {
-      let overchargePrice = minutesPassed * baseMinPrice * 0.1;
-      return overchargePrice;
-    } else {
-      let totalPrice = tempo * baseMinPrice;
-      return totalPrice;
+  static CalculateTotalPrice(pricePerMinute, totalDuration, plan) {
+    if (Number.isNaN(pricePerMinute)) {
+      return ["-", "-"];
     }
+    totalDuration = Number(totalDuration);
+    const avaliablePlans = {
+      falemais30: 30,
+      falemais60: 60,
+      falemais120: 120,
+    };
+    let maxFreeDuration = avaliablePlans[plan];
+    let minutesOverFreeDuration = totalDuration - maxFreeDuration;
+
+    const prices = [];
+    if (minutesOverFreeDuration > 0) {
+      const priceFaleMais =
+        minutesOverFreeDuration * (pricePerMinute + pricePerMinute * 0.1);
+      prices.push(priceFaleMais.toFixed(2));
+    } else {
+      prices.push(Number(0).toFixed(2));
+    }
+    const priceNoPlan = totalDuration * pricePerMinute;
+    prices.push(priceNoPlan.toFixed(2));
+    return prices;
   }
 }
 export default Utils;

@@ -41,11 +41,16 @@ class Calculator extends React.Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-
-    console.log(this.state);
-    const utils = new Utils();
-    const precoTotal = utils.CalculateTotalPrice(1.9, 20, "falemais30");
-    console.log(precoTotal);
+    const pricePerMinute = Utils.CalculateMinutePrice(
+      this.state.origem,
+      this.state.destino
+    );
+    const totalPrice = Utils.CalculateTotalPrice(
+      pricePerMinute,
+      this.state.minuto,
+      this.state.plano
+    );
+    console.log(totalPrice);
   }
   handleOriginChange(e) {
     this.setState(
@@ -58,23 +63,38 @@ class Calculator extends React.Component {
     );
   }
   handleDestinationChange(e) {
-    this.setState({
-      destino: e.target.value,
-    });
+    this.setState(
+      {
+        destino: e.target.value,
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
   }
   handlePlanChange(e) {
-    this.setState({
-      plano: e.target.value,
-    });
+    this.setState(
+      {
+        plano: e.target.value,
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
   }
   handleMinuteChange(e) {
-    this.setState({
-      minuto: e.target.value,
-    });
+    this.setState(
+      {
+        minuto: e.target.value,
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
   }
   render() {
     return (
-      <form onSubmit={() => this.handleSubmit}>
+      <form onSubmit={() => this.handleSubmit.bind(this)}>
         <Container>
           <Title>Calculadora de Planos</Title>
           <div>
@@ -116,6 +136,7 @@ class Calculator extends React.Component {
             ></Input>
             <Button type="submit">Enviar</Button>
           </div>
+          {this.state.totalPrice}
         </Container>
       </form>
     );
