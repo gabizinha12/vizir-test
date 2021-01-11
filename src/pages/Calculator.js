@@ -37,23 +37,39 @@ class Calculator extends React.Component {
       plano: "",
       minuto: "",
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit(e) {
     e.preventDefault();
+    console.log(this.state);
   }
-  handleChange(e) {
+  handleOriginChange(e) {
+    this.setState(
+      {
+        origem: e.target.value,
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
+  }
+  handleDestinationChange(e) {
     this.setState({
-      origem: e.target.value,
       destino: e.target.value,
+    });
+  }
+  handlePlanChange(e) {
+    this.setState({
       plano: e.target.value,
+    });
+  }
+  handleMinuteChange(e) {
+    this.setState({
       minuto: e.target.value,
     });
   }
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={() => this.handleSubmit}>
         <Container>
           <Title>Calculadora de Planos</Title>
           <div>
@@ -61,18 +77,18 @@ class Calculator extends React.Component {
               placeholder="Insira um DDD"
               type="number"
               style={{ marginLeft: "90px" }}
-              onChange={this.handleChange}
-              value={this.origem}
+              onChange={() => this.handleOriginChange}
+              value={this.state.origem}
             ></Input>
             <Input
               placeholder="Para"
               style={{ marginLeft: "20px" }}
               type="number"
-              onChange={this.handleChange}
-              value={this.destino}
+              onChange={() => this.handleDestinationChange}
+              value={this.state.destino}
             ></Input>
-            <Select onChange={this.handleChange}>
-              <option value="" hidden>
+            <Select onChange={() => this.handlePlanChange}>
+              <option value={this.state.plano} hidden>
                 Selecione um plano
               </option>
               <option value="falemais30">FaleMais30</option>
@@ -86,7 +102,8 @@ class Calculator extends React.Component {
                 marginLeft: "20px",
                 marginRight: "30px",
               }}
-              value={this.minuto}
+              value={this.state.minuto}
+              onChange={() => this.handleMinuteChange}
               type="number"
             ></Input>
             <Button type="submit">Enviar</Button>
