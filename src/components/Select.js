@@ -1,9 +1,6 @@
 import styled from "styled-components";
 
 export const Select = styled.select`
-  @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap")
-      font-family: "Quicksand",
-    sans-serif;
   width: 22%;
   height: 50px;
   background: white;
